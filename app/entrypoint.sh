@@ -13,6 +13,6 @@ fi
 
 python manage.py flush --no-input
 python manage.py migrate
-python3 manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser(username='admin', password='1')"
+python3 manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser(email='admin@admin.com', password='1')"
 
 exec "$@"

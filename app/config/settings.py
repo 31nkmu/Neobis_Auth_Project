@@ -48,28 +48,13 @@ INSTALLED_APPS = [
     'applications.account',
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://127.0.0.1:1337',
-    'http://localhost:1337',
-]
+CSRF_TRUSTED_ORIGINS = os.environ.get("BACKEND_CORS_ORIGINS").split(" ")
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://localhost:1337',
-    'http://127.0.0.1:1337',
-]
+CORS_ALLOWED_ORIGINS = os.environ.get("BACKEND_CORS_ORIGINS").split(" ")
 
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://localhost:1337',
-    'http://127.0.0.1:1337',
-]
+CORS_ALLOWED_ORIGIN_REGEXES = os.environ.get("BACKEND_CORS_ORIGINS").split(" ")
 
-CORS_ALLOW_ALL_ORIGINS: True
+CORS_ALLOW_ALL_ORIGINS = True
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
