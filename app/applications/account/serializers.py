@@ -51,7 +51,6 @@ class ForgotPasswordSerializer(serializers.Serializer):
 
 
 class ForgotPasswordConfirmSerializer(serializers.Serializer):
-    email = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True, max_length=128, min_length=6)
     new_password_confirm = serializers.CharField(max_length=128, min_length=6, write_only=True, required=True)
     activation_code = serializers.CharField(max_length=128, required=True, write_only=True)
@@ -61,19 +60,15 @@ class ForgotPasswordConfirmSerializer(serializers.Serializer):
         p2 = attrs.pop('new_password_confirm')
         if p1 != p2:
             raise serializers.ValidationError({'msg': 'Пароли не совпадают'})
-        email = attrs.get('email')
         activation_code = attrs.get('activation_code')
-        if not User.objects.filter(email=email).exists():
-            raise serializers.ValidationError({'msg': 'Нет такого пользователя'})
-        if not User.objects.filter(activation_code=activation_code, email=email).exists():
+        if not User.objects.filter(activation_code=activation_code).exists():
             raise serializers.ValidationError({'msg': 'Неверный активационный код'})
         return attrs
 
     def change_password(self):
-        email = self.validated_data.get('email')
         activation_code = self.validated_data.get('activation_code')
         password = self.validated_data.get('new_password')
-        user = User.objects.get(email=email, activation_code=activation_code)
+        user = User.objects.get(activation_code=activation_code)
         user.set_password(password)
         user.activation_code = ''
         user.save(update_fields=('activation_code', 'password'))

@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 
 
 def send_activation_link(email, activation_code):
-    full_link = f'http://{os.environ.get("HOST"):80}/api/v1/account/activate/{activation_code}'
+    full_link = f'http://{os.environ.get("HOST")}:{os.environ.get("PORT")}/api/v1/account/activate/{activation_code}'
     send_mail(
         'Ссылка активации',
         full_link,
