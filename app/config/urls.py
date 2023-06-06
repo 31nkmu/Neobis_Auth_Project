@@ -23,7 +23,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title="API",
         default_version='v1',
-        description="Electronics store",
+        description="API",
     ),
     public=True,
 )

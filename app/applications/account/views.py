@@ -11,14 +11,17 @@ from applications.account.serializers import RegisterSerializer, ForgotPasswordS
 User = get_user_model()
 
 
-@swagger_auto_schema(request_body=RegisterSerializer)
 class RegisterAPIView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
 
+    @swagger_auto_schema(tags=['register'], request_body=RegisterSerializer)
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
 
 class RegisterBeginAPIView(APIView):
-    @swagger_auto_schema(request_body=ForgotPasswordSerializer)
+    @swagger_auto_schema(request_body=ForgotPasswordSerializer, tags=['register'])
     def post(self, request):
         serializer = RegisterBeginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -27,7 +30,7 @@ class RegisterBeginAPIView(APIView):
 
 
 class ActivateAPIView(APIView):
-    @swagger_auto_schema()
+    @swagger_auto_schema(tags=['register'])
     def get(self, request, activation_code):
         user = User.objects.filter(activation_code=activation_code).first()
         if not user:
@@ -39,7 +42,7 @@ class ActivateAPIView(APIView):
 
 
 class ForgotPasswordAPIVIew(APIView):
-    @swagger_auto_schema(request_body=ForgotPasswordSerializer)
+    @swagger_auto_schema(request_body=ForgotPasswordSerializer, tags=['forgot password'])
     def post(self, request):
         serializer = ForgotPasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -48,7 +51,7 @@ class ForgotPasswordAPIVIew(APIView):
 
 
 class ForgotPasswordConfirmAPIView(APIView):
-    @swagger_auto_schema(request_body=ForgotPasswordConfirmSerializer)
+    @swagger_auto_schema(request_body=ForgotPasswordConfirmSerializer, tags=['forgot password'])
     def post(self, request):
         serializer = ForgotPasswordConfirmSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
