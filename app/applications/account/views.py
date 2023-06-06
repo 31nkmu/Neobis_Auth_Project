@@ -5,9 +5,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from drf_yasg.utils import swagger_auto_schema
 
-
 from applications.account.serializers import RegisterSerializer, ForgotPasswordSerializer, \
-    ForgotPasswordConfirmSerializer
+    ForgotPasswordConfirmSerializer, RegisterBeginSerializer
 
 User = get_user_model()
 
@@ -16,6 +15,15 @@ User = get_user_model()
 class RegisterAPIView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
+
+
+class RegisterBeginAPIView(APIView):
+    @swagger_auto_schema(request_body=ForgotPasswordSerializer)
+    def post(self, request):
+        serializer = RegisterBeginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.send_code()
+        return Response({'msg': 'Вам отправили ссылку для дальнейшей регитрации'}, status=status.HTTP_200_OK)
 
 
 class ActivateAPIView(APIView):
