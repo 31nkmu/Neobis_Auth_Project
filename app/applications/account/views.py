@@ -21,7 +21,7 @@ class RegisterAPIView(CreateAPIView):
 
 
 class RegisterBeginAPIView(APIView):
-    @swagger_auto_schema(request_body=ForgotPasswordSerializer, tags=['register'])
+    @swagger_auto_schema(request_body=RegisterBeginSerializer, tags=['register'])
     def post(self, request):
         serializer = RegisterBeginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

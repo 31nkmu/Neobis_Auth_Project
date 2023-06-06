@@ -23,7 +23,7 @@ def send_activation_code(email, activation_code):
 
 
 def send_register_link(email):
-    full_link = f'http://{os.environ.get("HOST")}:{os.environ.get("PORT")}/api/v1/account/register/'
+    full_link = f'http://{os.environ.get("HOST")}:{os.environ.get("PORT")}/api/v1/account/register_confirm/'
     send_mail(
         'Ссылка регистрации',
         full_link,
