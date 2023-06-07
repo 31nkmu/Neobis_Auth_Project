@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", "foo")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost 127.0.0.1").split(" ")
 
 # Application definition
 
@@ -48,11 +48,12 @@ INSTALLED_APPS = [
     'applications.account',
 ]
 
-CSRF_TRUSTED_ORIGINS = os.environ.get("BACKEND_CORS_ORIGINS").split(" ")
+CSRF_TRUSTED_ORIGINS = os.environ.get("BACKEND_CORS_ORIGINS", "http://localhost:8000 http://127.0.0.1:8000").split(" ")
 
-CORS_ALLOWED_ORIGINS = os.environ.get("BACKEND_CORS_ORIGINS").split(" ")
+CORS_ALLOWED_ORIGINS = os.environ.get("BACKEND_CORS_ORIGINS", "http://localhost:8000 http://127.0.0.1:8000").split(" ")
 
-CORS_ALLOWED_ORIGIN_REGEXES = os.environ.get("BACKEND_CORS_ORIGINS").split(" ")
+CORS_ALLOWED_ORIGIN_REGEXES = os.environ.get("BACKEND_CORS_ORIGINS",
+                                             "http://localhost:8000 http://127.0.0.1:8000").split(" ")
 
 CORS_ALLOW_ALL_ORIGINS = True
 
